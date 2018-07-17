@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import $ from "jquery";
 //include bootstrap npm library into the bundle
 import 'bootstrap';
+import './icons.js';
 
 //include your index.scss file into the bundle
 import '../styles/index.scss';
