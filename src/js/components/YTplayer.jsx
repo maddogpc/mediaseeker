@@ -2,6 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStepBackward, faStepForward, faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import youtubeIMG from '../../img/youtubePlay.png';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,7 +15,8 @@ const iframeContainerStyles = {
 };
 const YTplayerStyles = {
     position: "absolute",
-    padding: "5px"
+    padding: "5px",
+    width: "20em"
 };
 const liStyle = {
     border: "2px",
@@ -37,6 +39,11 @@ const title = {
 };
 const imgleft = {
     float: "left"
+};
+const likeBtn = {
+    float: "right",
+    color: "blue",
+    fontSize: "20px"
 };
 const btnlayout = {
     position: "relative"
@@ -91,12 +98,14 @@ export default class YTplayer extends React.Component {
         var lis = [];
         let keyProp = 0;
         let videos = this.props.videos;
-        for(let key in videos) {
-            let value = videos[key];
-            lis.push(<li key={keyProp} className="list-group-item" id={value} onClick={this.openVideo} onMouseOver= {(e) => e.target.style.cursor = "pointer"} style={liStyle}>
+        let strlen;
+        let videoId;
+        for(let x=0; x<videos.length; x++) {
+            strlen = videos[x].url.length;
+            videoId = videos[x].url.substr(strlen-11, 11);
+            lis.push(<li key={x} className="list-group-item" onMouseOver= {(e) => e.target.style.cursor = "pointer"} style={liStyle}>
                 <img className="playbtn" src={youtubeIMG} style={playbtnStyle}/>
-                &nbsp;&nbsp;{key}</li>);
-            keyProp++;
+                &nbsp;&nbsp;<span id={videoId} onClick={this.openVideo}>{videos[x].artist}-{videos[x].name}</span></li>);
         }
         return lis;
     }
@@ -137,7 +146,7 @@ export default class YTplayer extends React.Component {
         return (
             <div className="YTplayer" style={YTplayerStyles}>
                 <ul className="list-group list-group-flush" id="UL">
-                    <li className="list-group-item" style={title}>Title</li>
+                    <li className="list-group-item" style={title}>{this.props.title}</li>
                     <li className="list-group-item" style={nopadding}>
                         <div>
                             <div style={imgleft}><img ref={(el) => this.imgRef = el} src={youtubeIMG} height="70rem" width="70rem"/></div>
@@ -172,7 +181,8 @@ export default class YTplayer extends React.Component {
 YTplayer.propTypes = {
     parentUpdate: PropTypes.func,
     currentPlayer: PropTypes.string,
-    videos: PropTypes.object,
+    title: PropTypes.string,
+    videos: PropTypes.array,
     ID: PropTypes.string
 };
  

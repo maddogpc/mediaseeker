@@ -14,15 +14,15 @@ export default class TextBox extends React.Component {
         };
     }
     componentDidMount() {
-        let textDotDotDot = this.props.textObj.text.substr(0,275) + "...";
-        let title = this.props.textObj.title;
-        let link = this.props.textObj.link;
+        let textDotDotDot = this.props.text.substr(0,275) + "...";
+        let title = this.props.title;
+        let link = this.props.link;
         let text = textDotDotDot;
         this.setState({title, link, text, collapsedText:text});
     }
     collapse() {
         if (this.state.collapsed) {
-            this.setState({text: this.props.textObj.text, collapsed: false});
+            this.setState({text: this.props.text, collapsed: false});
         }
         else if (!this.state.collapsed) {
             let collapsedText = this.state.collapsedText;
@@ -34,7 +34,7 @@ export default class TextBox extends React.Component {
         const cardAbbreviatedStyles = {
             position: "relative",
             overflow: "hidden",
-            width: "20.7rem"
+            width: "20rem"
         };
         
         const buttonStyles = {
@@ -49,7 +49,7 @@ export default class TextBox extends React.Component {
             <div id="card" className="card" style={cardAbbreviatedStyles}>
                 <div className="card-body">
                     <h5 className="card-title">{this.state.title}</h5>
-                    <h6 className="card-subtitle mb-2 text-muted">{this.state.link}</h6>
+                    <h6 className="card-subtitle mb-2 text-muted"><a href={this.state.link}>{this.state.link}</a></h6>
                     <p className="card-text">{this.state.text}<br/><br/></p>
                     <button onClick={() => this.collapse()} style={buttonStyles}>
                         {this.state.collapsed ? (
@@ -61,7 +61,10 @@ export default class TextBox extends React.Component {
             );
     }
 }
+//title={widget.title} link={widget.link} text={widget.content}
 TextBox.propTypes = {
-    textObj: PropTypes.object,
+    title: PropTypes.string,
+    link: PropTypes.string,
+    text: PropTypes.string,
     toggle: PropTypes.func
 };

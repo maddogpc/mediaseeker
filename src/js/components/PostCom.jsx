@@ -44,7 +44,7 @@ class PostComponent extends React.Component{
                         ) : ""}
                         {this.state.isYoutube ? (
                             <div>
-                                <ul className="list-group mx-auto" id="VideoList">{videos}</ul>
+                                <ul className="list-group mx-auto" id="VideoList">{/*{videos}*/}</ul>
                                 <form>
                                     <div className="form-row align-items-center justify-content-center">
                                         <div className="col-auto ">

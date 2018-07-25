@@ -1,48 +1,25 @@
 import React from "react";
 import Flux from "@4geeksacademy/react-flux-dash";
 import { Link } from "react-router-dom";
-//include images into your bundle
-import rigoImage from '../../img/rigo-baby.jpg';
-import ButtonComponent from '../components/ButtonComponent.jsx';
 import NavComponent from '../components/NavComp.jsx';
-import LoginActions from '../actions/LoginActions.js';
-import LoginStore from '../stores/LoginStore.js';
+import SessionActions from '../actions/SessionActions.js';
+import SessionStore from '../stores/SessionStore.js';
 export default class Home extends Flux.View {
   constructor(){
         super();
-    
         this.state = {
-            showModal: false,
-            user: LoginStore.getUser()
-            
+            user: "",
+            password: ""
         };
-        fetch('https://jsonplaceholder.typicode.com/users')
-            .then((resp) => {
-                return resp.json();
-            })
-            .then((user) =>{
-                this.setState( {User: user});
-            }).catch((error) =>{
-                console.log("there was an error:",error);
-            });
-       
     }
-  
-    componentDidMount(){
-        this.bindStore(LoginStore,()=> {
-            console.log('final step');
-            // this.props.history.push('/contacts');
-            this.setState({
-                user: LoginStore.getUser()
-            });
+    
+    componentDidMount() {
+        this.loginSubscription = SessionStore.subscribe("login", (data) => {
+            if (data.username !== "undefined") {
+                this.props.history.push('/profile');
+            }
         });
     }
-  
-  handelRequest(object, num){
-      console.log("handel request");
-      LoginActions.loginRequest(object, num);
-  }
-  
   
   render() {
     return (
@@ -53,14 +30,14 @@ export default class Home extends Flux.View {
                 <form className='align-middle'>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">User Name/Email address</label>
-                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={(e) => this.setState({email: e.target.value})} value={this.state.email}/>
+                        <input type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" onChange={(e) => this.setState({user: e.target.value})} value={this.state.user}/>
                     </div>
                     <div className="form-group">
                         <label htmlFor="exampleInputPassword1">Password</label>
                         <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Password" onChange={(e) => this.setState({password: e.target.value})} value={this.state.password}/>
                     </div>
                     <p className="mx-auto text-center text-white">
-                        <button type="submit" className="btn  text-center " onClick={() => this.handelRequest({email:this.state.email, password:this.state.password})}>Sign in </button>
+                        <button type="button" className="btn  text-center " onClick={() => SessionActions.loginAction(this.state.user, this.state.password)}>Sign in </button>
                     </p>
                 </form>
                 
