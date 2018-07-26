@@ -1,3 +1,4 @@
+/* global fetch */
 import Flux from '@4geeksacademy/react-flux-dash';
 import * as EmailValidator from 'email-validator';
 
@@ -18,8 +19,13 @@ class SessionActions extends Flux.Action {
             headers:{
             'Content-Type': 'application/json'
         }
-        }).then(res => res.json())
-        .catch(error => console.error('Error:', error))
+        }).then(res => {
+            return res.json();
+            
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
         .then(response => Flux.dispatchEvent('login', response));
     }
     

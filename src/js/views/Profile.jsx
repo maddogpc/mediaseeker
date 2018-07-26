@@ -24,6 +24,7 @@ export default class Profile extends Flux.View {
             this.setState({widgets: data});
         });
         const storeState = SessionStore.getState();
+        console.log(storeState);
         MediaActions.getWidgets(storeState.login.username);
     }
     
@@ -57,7 +58,7 @@ export default class Profile extends Flux.View {
         <div>
             <NavComponent/>
             <div className="row">
-                <div className="col-lg-3">
+                <div className="col-lg-3 bgnb textColorWhite">
                     <h2>Biography</h2><br/>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet ante ac lacus laoreet dictum eget nec nibh. Aliquam erat volutpat. Ut 
