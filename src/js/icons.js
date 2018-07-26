@@ -18,6 +18,8 @@ import faFilm from '@fortawesome/fontawesome-free-solid/faFilm';
 import faGamepad from '@fortawesome/fontawesome-free-solid/faGamepad';
 import faMusic from '@fortawesome/fontawesome-free-solid/faMusic';
 import faBook from '@fortawesome/fontawesome-free-solid/faBook';
+import faComments from '@fortawesome/fontawesome-free-solid/faComments';
+// import faYoutube from '@fortawesome/free-brands-svg-icons/faYoutube';
 
 /**
  * 3) Tell font-awesome that you want to replace your icons with SVGs (recomended for performance)
@@ -30,7 +32,7 @@ fontawesome.config = {
  * 4) Add the icons into the font-awesome library
 */
 fontawesome.library.add(
-    faMapMarkerAlt, faPhone, faEnvelope, faPencilAlt, faTrashAlt, faMusic, faFilm, faGamepad, faBook
+    faMapMarkerAlt, faPhone, faEnvelope, faPencilAlt, faTrashAlt, faMusic, faFilm, faGamepad, faBook,faComments
 );
 
 

@@ -7,7 +7,7 @@ class NavComponent extends React.Component{
     render(){
         return (
             <nav className="navbar navbar-expand-lg bgg textp">
-                <Link to="/feed" className="navbar-brand textp">Feed</Link>
+                <Link to="/feed" className="navbar-brand textp">media seeker</Link>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>

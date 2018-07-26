@@ -9,16 +9,16 @@ class MediaSelectorComp extends React.Component{
             <div className="topA">
                 <div className="mx-auto btn-group btn-group-toggle align-items-center" align="center" data-toggle="buttons">
                     <label className="btn btn-secondary active ">
-                        <input type="radio" name="options" id="option1" autoComplete="off" checked/> <i className="fas fa-film"></i>
+                        <input type="radio" name="options" id="option1" autoComplete="off" checked onChange={()=>{}} /> <i className="fas fa-film"></i>
                     </label>
                     <label className="btn btn-secondary">
-                        <input type="radio" name="options" id="option2" autoComplete="off"/><i className="fas fa-gamepad"></i>
+                        <input type="radio" name="options" id="option2" autoComplete="off"/><i className="fas fa-film"></i>
                     </label>
                     <label className="btn btn-secondary">
-                        <input type="radio" name="options" id="option3" autoComplete="off"/><i className="fas fa-music"></i>
+                        <input type="radio" name="options" id="option3" autoComplete="off"/><i className="fas fa-book"></i>
                     </label>
                     <label className="btn btn-secondary ">
-                        <input type="radio" name="options" id="option4" autoComplete="off"/><i className="fas fa-book-open"></i>
+                        <input type="radio" name="options" id="option4" autoComplete="off"/><i className="fas fa-comments"></i>
                     </label>
                 </div>
             </div>

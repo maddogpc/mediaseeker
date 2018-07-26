@@ -127,103 +127,105 @@ class AddWidgetCom extends React.Component {
             </li>;
         });
         return (
-            <div>
-                <div className="text-center">
-                    <h2>What type of widget do you want to add?</h2>
-                    <select className="form-control d-inline-block mb-2 w-25" id="widgetSelector"
-                    onChange={(event) => this.selectionChange(event)} name="widgetSelector" form="WidgetForm" >
-                        <option value="None">None</option>
-                        <option value="Book">Book</option>
-                        <option value="YoutubePlayer">Youtube Player</option>
-                        <option value="TextBox">Text Box</option>
-                    </select>
-                    {this.state.isBook ? (
-                        <form>
-                            <div className="form-row align-items-center justify-content-center">
-                                <div className="col-auto ">
-                                    <label className="sr-only" htmlFor="Picture1URL">Picture 1 url</label>
-                                    <input type="text" className="form-control mb-2 mr-sm-2" id="picture1URL" placeholder="Picture 1 url"/>
-                                </div>
-                                <div className="col-auto">
-                                    <label className="sr-only" htmlFor="Picture2URL">Picture 2 url</label>
-                                    <input type="text" className="form-control mb-2 mr-sm-2" id="picture2URL" placeholder="Picture 2 url"/>
-                                </div>
-                                <div className="col-auto ">
-                                    <label className="sr-only" htmlFor="BookAuthor">Author</label>
-                                    <input type="text" className="form-control mb-2 mr-sm-2" id="bookAuthor" placeholder="Author"/>
-                                </div>
-                                <div className="col-auto">
-                                    <label className="sr-only" htmlFor="BookTitle">Title</label>
-                                    <input type="text" className="form-control mb-2 mr-sm-2" id="bookTitle" placeholder="Title"/>
-                                </div>
-                                <div className="col-auto">
-                                    <button type="button" className="btn btn-primary mb-2" onClick={this.addBook}>Add</button>
-                                </div>
-                            </div>
-                        </form>    
-                    ) : ""}
-                    {this.state.isYoutube ? (
-                        <div>
-                            <ul className="list-group mx-auto" id="VideoList">{videos}</ul>
+            <div className="card">
+                <div className="card-body textColorBlue">
+                    <div className="text-center">
+                        <h2 className="card-title">What type of widget do you want to add?</h2>
+                        <select className="form-control d-inline-block mb-2 w-25" id="widgetSelector"
+                        onChange={(event) => this.selectionChange(event)} name="widgetSelector" form="WidgetForm" >
+                            <option value="None">None</option>
+                            <option value="Book">Book</option>
+                            <option value="YoutubePlayer">Youtube Player</option>
+                            <option value="TextBox">Text Box</option>
+                        </select>
+                        {this.state.isBook ? (
                             <form>
                                 <div className="form-row align-items-center justify-content-center">
                                     <div className="col-auto ">
-                                        <label className="sr-only" htmlFor="ytName">Name</label>
-                                        <input ref={(el) => this.ytNameRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytName"  placeholder="Name"/>
+                                        <label className="sr-only" htmlFor="Picture1URL">Picture 1 url</label>
+                                        <input type="text" className="form-control mb-2 mr-sm-2" id="picture1URL" placeholder="Picture 1 url"/>
                                     </div>
                                     <div className="col-auto">
-                                        <label className="sr-only" htmlFor="ytArtist">Artist</label>
-                                        <input ref={(el) => this.ytArtistRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytArtist" placeholder="Artist"/>
+                                        <label className="sr-only" htmlFor="Picture2URL">Picture 2 url</label>
+                                        <input type="text" className="form-control mb-2 mr-sm-2" id="picture2URL" placeholder="Picture 2 url"/>
+                                    </div>
+                                    <div className="col-auto ">
+                                        <label className="sr-only" htmlFor="BookAuthor">Author</label>
+                                        <input type="text" className="form-control mb-2 mr-sm-2" id="bookAuthor" placeholder="Author"/>
                                     </div>
                                     <div className="col-auto">
-                                        <label className="sr-only" htmlFor="ytURL">Url</label>
-                                        <input ref={(el) => this.ytURLRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytURL" placeholder="Youtube Url"/>
+                                        <label className="sr-only" htmlFor="BookTitle">Title</label>
+                                        <input type="text" className="form-control mb-2 mr-sm-2" id="bookTitle" placeholder="Title"/>
                                     </div>
                                     <div className="col-auto">
-                                        <button type="button" className="btn btn-primary mb-2" id="addVideo" onClick={this.addVideo}>
-                                        Add</button>
+                                        <button type="button" className="btn btn-primary mb-2" onClick={this.addBook}>Add</button>
                                     </div>
-                                    
                                 </div>
-                                {this.state.hasVideos ? (
-                                    <button type="button" className="btn btn-success mb-2" id="ytSubmit" onClick= {() => this.setState({showModal: true})}>Submit</button>
-                                    ) : ""}
+                            </form>    
+                        ) : ""}
+                        {this.state.isYoutube ? (
+                            <div>
+                                <ul className="list-group mx-auto" id="VideoList">{videos}</ul>
+                                <form>
+                                    <div className="form-row align-items-center justify-content-center">
+                                        <div className="col-auto ">
+                                            <label className="sr-only" htmlFor="ytName">Name</label>
+                                            <input ref={(el) => this.ytNameRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytName"  placeholder="Name"/>
+                                        </div>
+                                        <div className="col-auto">
+                                            <label className="sr-only" htmlFor="ytArtist">Artist</label>
+                                            <input ref={(el) => this.ytArtistRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytArtist" placeholder="Artist"/>
+                                        </div>
+                                        <div className="col-auto">
+                                            <label className="sr-only" htmlFor="ytURL">Url</label>
+                                            <input ref={(el) => this.ytURLRef = el} type="text" className="form-control mb-2 mr-sm-2" id="ytURL" placeholder="Youtube Url"/>
+                                        </div>
+                                        <div className="col-auto">
+                                            <button type="button" className="btn btn-primary mb-2" id="addVideo" onClick={this.addVideo}>
+                                            Add</button>
+                                        </div>
+                                        
+                                    </div>
+                                    {this.state.hasVideos ? (
+                                        <button type="button" className="btn btn-success mb-2" id="ytSubmit" onClick= {() => this.setState({showModal: true})}>Submit</button>
+                                        ) : ""}
+                                </form>
+                                
+                            </div>
+                        ) : ""}
+                        {this.state.isTextBox ? (
+                            <form>
+                                <div className="form-row align-items-center justify-content-center">
+                                    <div className="col-auto ">
+                                        <label className="sr-only" htmlFor="articleLink">Link to article</label>
+                                        <input type="text" className="form-control mb-2 mr-sm-2" id="articleLink" placeholder="Link to article"/>
+                                    </div>
+                                </div>
+                                <textarea id="textArea" rows="8" cols="50">
+                                    Write your own thoughts and opinions here. Or copy and paste the contents of an article.
+                                </textarea><br/>
+                                <button type="button" className="btn btn-success mb-2" onClick={this.addTextBox} id="textSubmit">Submit</button>
                             </form>
-                            
-                        </div>
-                    ) : ""}
-                    {this.state.isTextBox ? (
-                        <form>
-                            <div className="form-row align-items-center justify-content-center">
-                                <div className="col-auto ">
-                                    <label className="sr-only" htmlFor="articleLink">Link to article</label>
-                                    <input type="text" className="form-control mb-2 mr-sm-2" id="articleLink" placeholder="Link to article"/>
-                                </div>
-                            </div>
-                            <textarea id="textArea" rows="8" cols="50">
-                                Write your own thoughts and opinions here. Or copy and paste the contents of an article.
-                            </textarea><br/>
-                            <button type="button" className="btn btn-success mb-2" onClick={this.addTextBox} id="textSubmit">Submit</button>
-                        </form>
-                    ) : ""}
-                    {/*Modal*/}
-                    <div className="modal" id="confirmModal" tabIndex="-1" role="dialog" style={{display: (this.state.showModal) ? 'inline-block' : 'none'}}>
-                        <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                                <div className="modal-header">
-                                    <h5 className="modal-title">What would you like to name the widget?</h5>
-                                </div>
-                                <div className="modal-body">
-                                    <input type="text" name="widgetName" id="widgetName"/>
-                                </div>
-                                <div className="modal-footer">
-                                    <button type="button" className="btn btn-primary" onClick = {() => this.setState({showModal: false})}>Cancel</button>
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick = {this.saveWidgetHandler}>Save</button>
+                        ) : ""}
+                        {/*Modal*/}
+                        <div className="modal" id="confirmModal" tabIndex="-1" role="dialog" style={{display: (this.state.showModal) ? 'inline-block' : 'none'}}>
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">What would you like to name the widget?</h5>
+                                    </div>
+                                    <div className="modal-body">
+                                        <input type="text" name="widgetName" id="widgetName"/>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-primary" onClick = {() => this.setState({showModal: false})}>Cancel</button>
+                                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick = {this.saveWidgetHandler}>Save</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        {/*End Modal*/}
                     </div>
-                    {/*End Modal*/}
                 </div>
             </div>
         );
