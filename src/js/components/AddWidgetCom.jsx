@@ -120,6 +120,14 @@ class AddWidgetCom extends React.Component {
             float: "right",
             fontSize: "30px"
         };
+        const divstyles = {
+            borderTop: "aquamarine",
+            borderWidth: "10px",
+            borderStyle: "solid"
+        };
+        
+    /* border-left: #103b5c; */
+
         const videos = this.state.listOfVideos.map((video,i) => {
             return <li className="list-group-item list-group-item-action" id={i} key={i} style={listItemStyle}>
             name: <b>{video.name}</b> / artist: <b>{video.artist}</b> / url: <b>{video.url}</b>
@@ -127,8 +135,8 @@ class AddWidgetCom extends React.Component {
             </li>;
         });
         return (
-            <div className="card">
-                <div className="card-body textColorBlue">
+            <div className="card" >
+                <div className="card-body textColorBlue" style={divstyles}>
                     <div className="text-center">
                         <h2 className="card-title">What type of widget do you want to add?</h2>
                         <select className="form-control d-inline-block mb-2 w-25" id="widgetSelector"

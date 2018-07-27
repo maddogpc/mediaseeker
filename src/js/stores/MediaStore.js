@@ -11,6 +11,11 @@ class MediaStore extends Flux.DashStore{
         this.addEvent("postBook");
         this.addEvent("postYoutube");
         this.addEvent("postTextBox");
+        // this.addEvent("postBook", (state) => {
+        //     console.log(state);
+        //     // state.some_other_property = "Some other Data";
+        //     return Object.assign(state, state);
+        // });
     }
     getWidgetsFromStore() {
         console.log(this.state);

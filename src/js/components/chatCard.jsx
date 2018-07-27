@@ -16,7 +16,7 @@ class SnipIt extends React.Component{
                     </div>
                     <div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
                         <div className=" float-right">
-                            <button className="btn" ><i className="fas fa-pencil-alt mr-3"></i></button>
+                            <button className="btn" onClick={() => this.props.writeMsg(this.props.name)}><i className="fas fa-pencil-alt mr-3"></i></button>
                             <button className="btn" onClick={() => this.props.onDelete(this.props.ID)}><i className="fas fa-trash-alt"></i></button>
                         </div>
                         <label className="name lead textp">{this.props.name}</label>

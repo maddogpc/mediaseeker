@@ -42,5 +42,18 @@ class SessionActions extends Flux.Action {
         .catch(error => console.error('Error:', error))
         .then(response => Flux.dispatchEvent('createProfile', response));
     }
+    
+    getFriendsAction(usernamejs) {
+        var url = 'https://mediamatchserver-madechai.c9users.io/getfriends/'+usernamejs;
+        fetch(url, {
+            method: 'GET', 
+            // body: JSON.stringify(data), // data can be `string` or {object}!
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => Flux.dispatchEvent('getFriends', response));
+    }
 }
 export default new SessionActions();

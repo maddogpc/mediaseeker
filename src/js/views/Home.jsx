@@ -16,14 +16,14 @@ export default class Home extends Flux.View {
     componentDidMount() {
         this.loginSubscription = SessionStore.subscribe("login", (data) => {
             if (data.username !== "undefined") {
-                this.props.history.push('/profile');
+                this.props.history.push('/feed');
             }
         });
     }
   
   render() {
     return (
-        <div>
+        <div className="container-fluid">
             <NavComponent/>
             <div className="jumbotron w-75 pt-3 mx-auto">
                 <h1 className="display-4 text-center">Welcom to Migo</h1>
