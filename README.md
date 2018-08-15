@@ -3,7 +3,7 @@
 The goal of this website is to create a social media experience that is more meaningful than the platforms that are available today. User's post widgets that are representative of the media (music/movies/books/videogames) that they like. It has the features that are commonly associated with social media sites with the addition of being able to recommend media and recommend friends based on that media. 
 
 ## Hosting at
-https://newmediamatch-madechai.c9users.io/
+https://newmediamatch-madechai.c9users.io/ (If it is down email madisonverger613@gmail.com)
 
 ## Included software
 ## Backend:
