@@ -21,12 +21,46 @@ class SessionActions extends Flux.Action {
         }
         }).then(res => {
             return res.json();
-            
         })
         .catch(error => {
             console.error('Error:', error);
         })
         .then(response => Flux.dispatchEvent('login', response));
+    }
+    
+    search(username) {
+        var url = 'https://mediamatchserver-madechai.c9users.io/getprofile/'+username;
+        fetch(url, {
+            method: 'GET', // or 'PUT'
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => {
+            return res.json();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .then(response => Flux.dispatchEvent('search', response));
+    }
+    
+    logoutAction(username) {
+        var url = 'https://mediamatchserver-madechai.c9users.io/logout/';
+        let checkEmail = EmailValidator.validate(username); 
+        let data = {user: username};
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            body: JSON.stringify(data), // data can be `string` or {object}!
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => {
+            return res.json();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        })
+        .then(response => Flux.dispatchEvent('onLogout', response));
     }
     
     createProfileAction(usernamejs, emailjs, passwordjs, birthdatejs, genderjs, cityjs, statejs, zipjs) {
@@ -54,6 +88,20 @@ class SessionActions extends Flux.Action {
         }).then(res => res.json())
         .catch(error => console.error('Error:', error))
         .then(response => Flux.dispatchEvent('getFriends', response));
+    }
+    
+    findRecommendedFriends(username) {
+        console.log(username);
+        var url = 'https://mediamatchserver-madechai.c9users.io/findrecommendedfriends/'+username;
+        fetch(url, {
+            method: 'POST', 
+            // body: JSON.stringify(data), // data can be `string` or {object}!
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => Flux.dispatchEvent('findRecommendedFriends', response));
     }
 }
 export default new SessionActions();

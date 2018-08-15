@@ -1,13 +1,8 @@
 import React from "react";
 import Flux from "@4geeksacademy/react-flux-dash";
-import { Link } from "react-router-dom";
 import * as EmailValidator from 'email-validator';
-//include images into your bundle
-import rigoImage from '../../img/rigo-baby.jpg';
-import ButtonComponent from '../components/ButtonComponent.jsx';
 import SessionActions from '../actions/SessionActions.js';
 import SessionStore from '../stores/SessionStore.js';
-
 export default class NewAccount extends Flux.View {
     constructor (props) {
         super(props);
@@ -40,6 +35,7 @@ export default class NewAccount extends Flux.View {
         });
         this.loginSubscription = SessionStore.subscribe("login", (data) => {
             if (data.username !== "undefined") {
+                localStorage.setItem('username', data.username);
                 this.props.history.push('/profile');
             }
         });

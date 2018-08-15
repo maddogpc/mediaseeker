@@ -34,7 +34,7 @@ export default class TextBox extends React.Component {
         const cardAbbreviatedStyles = {
             position: "relative",
             overflow: "hidden",
-            width: "20rem"
+            width: "320px"
         };
         
         const buttonStyles = {

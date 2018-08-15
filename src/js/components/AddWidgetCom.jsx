@@ -107,6 +107,7 @@ class AddWidgetCom extends React.Component {
         let isTextBox = this.state.isTextBox;
         
         this.props.saveWidget(user, isBook, isYoutube, isTextBox);
+        this.setState({showModal: false});
     }
     
     render() {

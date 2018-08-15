@@ -5,9 +5,11 @@ class SessionStore extends Flux.DashStore{
         super();
         // Declare an Event
         this.addEvent("login");
+        this.addEvent("search");
         this.addEvent("createProfile");
         this.addEvent("onLogout");
         this.addEvent("getFriends");
+        this.addEvent("findRecommendedFriends");
     }
 }
 export default new SessionStore();

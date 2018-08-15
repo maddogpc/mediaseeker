@@ -23,10 +23,37 @@ export default class Profile extends Flux.View {
         this.mediaSubscription = MediaStore.subscribe("getWidgets", (data) => {
             this.setState({widgets: data});
         });
-        const storeState = SessionStore.getState();
-        console.log(storeState);
-        MediaActions.getWidgets(storeState.login.username);
+        
+        this.widgetSubscription = MediaStore.subscribe("getWidgetFeed", (data) => {
+            console.log(data);
+            //this.setState({widgets: data});
+        });
+        
+        if (typeof this.props.match.params.username != 'undefined') {
+            let userProfile = this.props.match.params.username;
+            console.log(userProfile);
+            this.setState({user: userProfile});
+            MediaActions.getWidgets(userProfile);
+            MediaActions.getWidgetFeed(userProfile);
+        }
+        
+        else {
+            let username = localStorage.getItem('username');
+            // const storeState = SessionStore.getState();
+            // console.log(storeState);
+            MediaActions.getWidgets(username);
+            MediaActions.getWidgetFeed(username);
+        }
+        
+        
+        // console.log(this.props.match.params.username);
     }
+    
+    componentWillUnMount() {
+        console.log("UNMOUNTING");
+          // Don't forget to release the subscription
+          this.sessionSubscription.unsubscribe();
+      }
     
     parentUpdate(playerID) {
         this.setState({currentPlayer: playerID ? playerID : ""});
@@ -34,6 +61,11 @@ export default class Profile extends Flux.View {
     
     toggle() {
         this.setState({toggle: !this.state.toggle});
+    }
+    
+    redirect(url) {
+        this.props.history.push(url);
+        MediaActions.getWidgets(this.props.match.params.username);
     }
     
   render() {
@@ -56,9 +88,10 @@ export default class Profile extends Flux.View {
     
     return (
         <div>
-            <NavComponent/>
+            <NavComponent redirect={(url) => this.redirect(url)}/>
             <div className="row">
                 <div className="col-lg-3 bgnb textColorWhite">
+                    <img src='https://i.stack.imgur.com/l60Hf.png' className="rounded-circle mx-auto d-block img-fluid" />
                     <h2>Biography</h2><br/>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet ante ac lacus laoreet dictum eget nec nibh. Aliquam erat volutpat. Ut 

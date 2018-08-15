@@ -2,7 +2,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStepBackward, faStepForward, faPlayCircle, faPauseCircle } from '@fortawesome/free-solid-svg-icons';
 import { faWindowClose } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
 import youtubeIMG from '../../img/youtubePlay.png';
 import React from 'react';
 import PropTypes from 'prop-types';
@@ -14,11 +13,12 @@ const iframeContainerStyles = {
     zIndex: 2
 };
 const YTplayerStyles = {
-    position: "absolute",
+    position: "relative",
     padding: "5px",
-    width: "20em"
+    width: "330px"
 };
 const liStyle = {
+    width: "320px",
     border: "2px",
     borderColor: "pink",
     borderStyle: "inset"
@@ -32,21 +32,12 @@ const nopadding = {
 const inline = {
     display: "inline"
 };
-const title = {
-    fontStyle: "italic",
-    fontSize: "20px",
-    textAlign: "center"
-};
 const imgleft = {
     float: "left"
 };
-const likeBtn = {
-    float: "right",
-    color: "blue",
-    fontSize: "20px"
-};
 const btnlayout = {
-    position: "relative"
+    position: "relative",
+    width: "320px"
 };
 const buttons = {
     width: "4rem",
@@ -62,7 +53,7 @@ export default class YTplayer extends React.Component {
     constructor() {
         super();
         this.state = {
-            videoList: [],
+            videoIds: [],
             videoTriggered: false,
             videoId: "",
             play: true
@@ -85,90 +76,99 @@ export default class YTplayer extends React.Component {
     }
     
     componentDidMount() {
-        let ids = [];
-        let videos = this.props.videos;
-        for(var key in videos) {
-            var value = videos[key];
-            ids.push(value);
-        }
-        this.setState({videoList: ids});
-    }
-    
-    addLIs() {
-        var lis = [];
-        let keyProp = 0;
+        let videoIds = [];
         let videos = this.props.videos;
         let strlen;
         let videoId;
         for(let x=0; x<videos.length; x++) {
             strlen = videos[x].url.length;
             videoId = videos[x].url.substr(strlen-11, 11);
-            lis.push(<li key={x} className="list-group-item" onMouseOver= {(e) => e.target.style.cursor = "pointer"} style={liStyle}>
+            videoIds.push(videoId);
+        }
+        this.setState({videoIds});
+    }
+    
+    addLIs() {
+        var lis = [];
+        let videos = this.props.videos;
+        let strlen;
+        let videoId;
+        for(let x=0; x<videos.length; x++) {
+            strlen = videos[x].url.length;
+            videoId = videos[x].url.substr(strlen-11, 11);
+            lis.push(<li key={x} id={videoId} className="list-group-item" onMouseOver= {(e) => e.target.style.cursor = "pointer"} onClick={this.openVideo} style={liStyle}>
                 <img className="playbtn" src={youtubeIMG} style={playbtnStyle}/>
-                &nbsp;&nbsp;<span id={videoId} onClick={this.openVideo}>{videos[x].artist}-{videos[x].name}</span></li>);
+                &nbsp;&nbsp;{videos[x].artist}-{videos[x].name}</li>);
         }
         return lis;
     }
     
-    previousNext(bool) {
-        let videoList = this.state.videoList;
-        let currentVideoId = this.state.videoId;
-        let videoIndex;
-        if (currentVideoId != "") {
-            for (let i=0; i<videoList.length; i++) {
-                if (videoList[i] === currentVideoId) {
-                    videoIndex = i;
+    previousNext(next) {
+        let videoId = this.state.videoId;
+        let videoIds = this.state.videoIds;
+        let index;
+        let newId;
+        if (videoId !== "") {
+            for (let i=0; i<videoIds.length; i++) {
+                if (videoIds[i] == videoId) {
+                    index = i;
                 }
             }
-        }
-        let newId;
-        if (bool) {
-            if (videoIndex !== videoList.length-1) {
-                newId=videoList[videoIndex+1];
-                this.setState({videoId: newId});
-                this.imgRef.src = "http://img.youtube.com/vi/" + newId + "/default.jpg";
+            if ((index == 0) && (!next)) {
+                newId = videoIds[videoIds.length-1];
             }
-        }
-        else if (!bool) {
-            if (videoIndex !== 0) {
-                newId=videoList[videoIndex-1];
-                this.setState({videoId: newId});
-                this.imgRef.src = "http://img.youtube.com/vi/" + newId + "/default.jpg";
+            else if ((index == videoIds.length-1) && (next)) {
+                newId = videoIds[0];
             }
+            else {
+                if (!next) {
+                    newId = videoIds[index-1];
+                } 
+                else {
+                    newId = videoIds[index+1];
+                }
+            }
+            this.setState({videoId: newId});
+            this.imgRef.src = "http://img.youtube.com/vi/" + newId + "/default.jpg";
+            this.props.parentUpdate(this.props.ID);
         }
     }
     
     render() {
         const closeIcon = {
+            position: "absolute",
+            top: 0,
+            left: 0,
             color: "red",
-            backgroundColor: "white"
+            backgroundColor: "white",
+            fontSize: "16px"
         };
         return (
-            <div className="YTplayer" style={YTplayerStyles}>
-                <ul className="list-group list-group-flush" id="UL">
-                    <li className="list-group-item" style={title}>{this.props.title}</li>
-                    <li className="list-group-item" style={nopadding}>
-                        <div>
-                            <div style={imgleft}><img ref={(el) => this.imgRef = el} src={youtubeIMG} height="70rem" width="70rem"/></div>
-                            <div style={inline}>
-                                <div style={btnlayout}> 
-                                    <FontAwesomeIcon onClick={()=>this.previousNext(false)} icon={faStepBackward} style={buttons}/>
-                                    <span id={"playPause"+this.props.ID}>
-                                        {this.state.play ? (
-                                            <FontAwesomeIcon onClick={() => this.setState({play: false})} icon={faPauseCircle} style={buttons}/>
-                                        ) : <FontAwesomeIcon onClick={() => this.setState({play: true})} icon={faPlayCircle} style={buttons}/>}
-                                    </span>
-                                    <FontAwesomeIcon onClick={()=>this.previousNext(true)} icon={faStepForward} style={buttons}/>  
+            <div>
+                <div className="YTplayer" style={YTplayerStyles}>
+                    <ul className="list-group list-group-flush" id="UL" style={liStyle}>
+                        <li className="list-group-item" style={nopadding}>
+                            <div>
+                                <div style={imgleft}><img ref={(el) => this.imgRef = el} src={youtubeIMG} height="70rem" /></div>
+                                <div style={inline}>
+                                    <div style={btnlayout}> 
+                                        <FontAwesomeIcon onClick={()=>this.previousNext(false)} icon={faStepBackward} style={buttons}/>
+                                        <span id={"playPause"+this.props.ID}>
+                                            {this.state.play ? (
+                                                <FontAwesomeIcon onClick={() => this.setState({play: false})} icon={faPauseCircle} style={buttons}/>
+                                            ) : <FontAwesomeIcon onClick={() => this.setState({play: true})} icon={faPlayCircle} style={buttons}/>}
+                                        </span>
+                                        <FontAwesomeIcon onClick={()=>this.previousNext(true)} icon={faStepForward} style={buttons}/>  
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </li>
-                </ul>
-                {this.addLIs()}
-                
+                        </li>
+                    </ul>
+                    {this.addLIs()}
+                </div>    
                 <div className="iframe-container" style={iframeContainerStyles}>
                     {this.state.videoTriggered ? (
-                        <FontAwesomeIcon onClick={()=>this.unrenderVideo()} icon={faWindowClose} style={closeIcon}/>  
+                        <FontAwesomeIcon onMouseOver= {(e) => e.target.style.cursor = "pointer"} onClick={()=>this.unrenderVideo()} icon={faWindowClose} style={closeIcon}/>  
                     ) : ""}
                     {(this.props.currentPlayer===this.props.ID) && this.state.videoTriggered  ? (
                         <YTiframe ID={this.props.ID} id={this.state.videoId} />

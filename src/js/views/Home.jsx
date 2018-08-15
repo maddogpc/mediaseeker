@@ -1,7 +1,6 @@
 import React from "react";
 import Flux from "@4geeksacademy/react-flux-dash";
 import { Link } from "react-router-dom";
-import NavComponent from '../components/NavComp.jsx';
 import SessionActions from '../actions/SessionActions.js';
 import SessionStore from '../stores/SessionStore.js';
 export default class Home extends Flux.View {
@@ -16,17 +15,21 @@ export default class Home extends Flux.View {
     componentDidMount() {
         this.loginSubscription = SessionStore.subscribe("login", (data) => {
             if (data.username !== "undefined") {
+                localStorage.setItem('username', data.username);
                 this.props.history.push('/feed');
             }
         });
     }
+    
+    redirect(url) {
+        this.props.history.push(url);
+    }
   
   render() {
     return (
-        <div className="container-fluid">
-            <NavComponent/>
+        <div>
             <div className="jumbotron w-75 pt-3 mx-auto">
-                <h1 className="display-4 text-center">Welcom to Migo</h1>
+                <h1 className="display-4 text-center">Welcome to Media Seeker</h1>
                 <form className='align-middle'>
                     <div className="form-group">
                         <label htmlFor="exampleInputEmail1">User Name/Email address</label>
@@ -40,7 +43,6 @@ export default class Home extends Flux.View {
                         <button type="button" className="btn  text-center " onClick={() => SessionActions.loginAction(this.state.user, this.state.password)}>Sign in </button>
                     </p>
                 </form>
-                
                 <p className="lead mx-auto text-center">
                     <Link className="text-center text-uppercase" to="/adduser" >Creat Account</Link>
                 </p>

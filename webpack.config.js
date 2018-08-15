@@ -37,6 +37,22 @@ module.exports = {
           ]
         },
         {
+        test: /\.global.css$/,
+        use: [{
+          loader: 'style-loader'
+        }, {
+          loader: 'css-loader'
+        }]
+      },
+      {
+        test: /^((?!\.global).)*\.css/,
+        use: [{
+          loader: 'style-loader'
+        }, {
+          loader: 'css-loader?modules'
+        }]
+      },
+        {
           test: /\.scss$/, use: [{
               loader: "style-loader" // creates style nodes from JS strings
           }, {

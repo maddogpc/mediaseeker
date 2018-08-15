@@ -67,5 +67,29 @@ class MediaActions extends Flux.Action {
         .then(response => Flux.dispatchEvent('getWidgets', response));
     }
     
+    getWidgetFeed(user) {
+        let url = 'https://mediamatchserver-madechai.c9users.io/getwidgetfeed/'+user;
+        fetch(url, {
+            method: 'GET', // or 'PUT'
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => Flux.dispatchEvent('getWidgetFeed', response));
+    }
+    
+    getMediaShort(user) {
+        let url = 'https://mediamatchserver-madechai.c9users.io/getmediashort/'+user;
+        fetch(url, {
+            method: 'GET', // or 'PUT'
+            headers:{
+            'Content-Type': 'application/json'
+        }
+        }).then(res => res.json())
+        .catch(error => console.error('Error:', error))
+        .then(response => Flux.dispatchEvent('getMediaShort', {response,user}));
+    }
+    
 }
 export default new MediaActions();

@@ -68,6 +68,7 @@
     "react-youtube": "^7.6.0",
     "sass": "^1.7.0",
     "string-replace-all": "^1.0.0",
+    "styled-components": "^3.4.2",
     "youtube-validate": "^1.2.4"
   }
 }

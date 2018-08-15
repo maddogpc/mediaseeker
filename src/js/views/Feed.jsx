@@ -1,7 +1,6 @@
 import React from "react";
 import Flux from "@4geeksacademy/react-flux-dash";
 import { Link } from "react-router-dom";
-import MediaSelectorComp from '../components/MediaSelCom.jsx';
 import CardComponent from '../components/CardCom.jsx';
 import NavComponent from '../components/NavComp.jsx';
 import SnipIt from '../components/chatCard.jsx';
@@ -9,8 +8,8 @@ import Modal from '../components/modal.js';
 import SessionActions from '../actions/SessionActions.js';
 import SessionStore from '../stores/SessionStore.js';
 import MediaActions from '../actions/MediaActions.js';
+import FriendActions from '../actions/FriendActions.js';
 import AddWidgetCom from '../components/AddWidgetCom.jsx';
-import LoginStore from '../stores/LoginStore.js';
 import MsgCom from '../components/MsgCom.jsx';
 import MediaStore from '../stores/MediaStore.js';
 import YTplayer from "../components/YTplayer.jsx";
@@ -21,7 +20,6 @@ export default class Feed extends Flux.View {
     constructor() {
         super();
         this.state = {
-            users:LoginStore.getUser(),
             user: "",
             friends: [],
             listOfVideos: [],
@@ -39,36 +37,39 @@ export default class Feed extends Flux.View {
         this.deleteFriend = this.deleteFriend.bind(this);
     }
     componentDidMount(){
-        const storeState = SessionStore.getState();
-        console.log(storeState);
-        this.setState({user: storeState.login.username});
+        let username = localStorage.getItem('username');
+        
+        this.sessionSubscription = SessionStore.subscribe("getFriends", (data) => {
+            this.setState({friends: data});
+        });
+        
+        this.widgetSubscription = MediaStore.subscribe("getWidgetFeed", (data) => {
+            console.log(data.widgets);
+            this.setState({widgets: data.widgets});
+        });
+        
+        this.setState({user: username}, () => {
+            SessionActions.getFriendsAction(this.state.user);
+            MediaActions.getWidgetFeed(this.state.user);
+        });
+        
         var socket = this.state.ws;
         // socket.addEventListener('open', function (event) {
         //     socket.send('Hello Server!, for the second time');
         // });
-    
-        // Listen for messages
         socket.addEventListener('message', function (event) {
             console.log('Message from server ', event.data);
         });
         socket.onmessage = event => {
             this.updateMsgList(event.data); //or wherever your new anim data is in the event    
         };
-        
-        // this.setState({user: storeState.login.username});
-        
-        this.sessionSubscription = SessionStore.subscribe("getFriends", (data) => {
-            this.setState({friends: data});
-            console.log(data);
-        });
-        SessionActions.getFriendsAction(storeState.login.username);
-        
-        this.mediaSubscription = MediaStore.subscribe("getWidgets", (data) => {
-            this.setState({widgets: data});
-        });
-        MediaActions.getWidgets(storeState.login.username);
-        
     }
+    
+    componentWillUnMount() {
+          // Don't forget to release the subscription
+          this.sessionSubscription.unsubscribe();
+      }
+    
     addVideoToParent(ytName, ytArtist, ytURL) {
         let tempState = Object.assign(this.state.listOfVideos);
         tempState.push({name:ytName, artist:ytArtist, url:ytURL});
@@ -103,6 +104,7 @@ export default class Feed extends Flux.View {
             let textArea = document.querySelector("#textArea").value;
             MediaActions.postTextBoxAction(userName, widgetTitle, link, textArea);
         }
+        alert("Your widget has been posted, check profile");
     }
     
     // chat function
@@ -142,20 +144,27 @@ export default class Feed extends Flux.View {
         this.setState({toggle: !this.state.toggle});
     }
     
+    redirect(url) {
+        this.props.history.push(url);
+    }
+    
   render() {
+      console.log(this.state.widgets);
     if (this.state.widgets !== undefined && this.state.widgets.length !== 0) {
         const widgets = Object.assign(this.state.widgets);
         var widgetsInHTML = widgets.map((widget,i) => {
-            if (widget.widget_type === "youtube") {
-                let parsedVideos = JSON.parse(widget.content);
-                return <YTplayer currentPlayer={this.state.currentPlayer} parentUpdate={(id) => this.parentUpdate(id)} ID={"uniqueID"+i} title={widget.title} videos={parsedVideos} key={i+100}/>;
-            }
-            else if (widget.widget_type === "book") {
-                let parsedImages = JSON.parse(widget.content);
-                return <FlipCover id={"flipper"+i} sizes={widget.image_size} images={parsedImages} key={i+200}/>;
-            }
-            else if (widget.widget_type === "textarea") {
-                return <TextBox toggle={() => this.toggle()} title={widget.title} link={widget.link} text={widget.content} key={i+300}/>;
+            if (widget.content !== "") {
+                if (widget.widget_type === "youtube") {
+                    let parsedVideos = JSON.parse(widget.content);
+                    return <YTplayer currentPlayer={this.state.currentPlayer} parentUpdate={(id) => this.parentUpdate(id)} ID={"uniqueID"+i} title={widget.title} videos={parsedVideos} key={i+100}/>;
+                }
+                else if (widget.widget_type === "book") {
+                    let parsedImages = JSON.parse(widget.content);
+                    return <FlipCover id={"flipper"+i} sizes={widget.image_size} images={parsedImages} key={i+200}/>;
+                }
+                else if (widget.widget_type === "textarea") {
+                    return <TextBox toggle={() => this.toggle()} title={widget.title} link={widget.link} text={widget.content} key={i+300}/>;
+                }
             }
         });
     }
@@ -202,13 +211,13 @@ export default class Feed extends Flux.View {
             padding: "20px"
         };    
     const padding = {
-            padding: "10px"
+            padding: "10px",
+            width: "101%"
         };    
 
     return (
         <div>
-            <NavComponent/>
-            
+            <NavComponent redirect={(url) => this.redirect(url)}/>
             <div className="modal" id="messageModal" tabIndex="-1" role="dialog" style={{display: (this.state.messageModal) ? 'inline-block' : 'none'}}>
                 <div className="modal-dialog" role="document">
                     <div className="modal-content">

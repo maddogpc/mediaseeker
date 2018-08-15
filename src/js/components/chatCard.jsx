@@ -16,12 +16,10 @@ class SnipIt extends React.Component{
                     </div>
                     <div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
                         <div className=" float-right">
-                            <button className="btn" onClick={() => this.props.writeMsg(this.props.name)}><i className="fas fa-pencil-alt mr-3"></i></button>
+                            <button className="btn" onClick={() => this.props.writeMsg(this.props.name)}><i className="fas fa-pencil-alt"></i></button>&nbsp;&nbsp;
                             <button className="btn" onClick={() => this.props.onDelete(this.props.ID)}><i className="fas fa-trash-alt"></i></button>
                         </div>
                         <label className="name lead textp">{this.props.name}</label>
-                        <span className="fa fa-envelope fa-fw text-muted mr-3 textp" data-toggle="tooltip" data-original-title="" title=""></span>
-                        <span className="text-muted small text-truncate textp">{this.props.email}</span>
                     </div>
                 </div>
             </li>
