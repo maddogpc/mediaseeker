@@ -1,85 +1,29 @@
-# Hello World with React + Flux
+# MediaSeeker - A social media matching platform
 
-This boilerplate is intended for 4Geeks Academy students when doing projects with React.js using Flux.
+The goal of this website is to create a social media experience that is more meaningful than the platforms that are available today. User's post widgets that are representative of the media (music/movies/books/videogames) that they like. It has the features that are commonly associated with social media sites with the addition of being able to recommend media and recommend friends based on that media. 
 
-## Installation
+## Hosting at
+https://newmediamatch-madechai.c9users.io/
 
-##### 1. Make sure you have node 8+ and the breathecode-cli
-```
-$ nvm install 8
-$ nvm use 8
-```
+## Included software
+## Backend:
+###### tastedive web api (for making media queries that return similar artists/titles)
+###### django rest API with python (the backend database)
+###### socket.io (for chat, was working at one time but was not fully developed)
+###### IO from BytesIO (for getting sizes of images before HTML render)
+###### python itertools chain (for combining queries in django)
 
-##### 2. Using the breathecode-cli:
-```
-$ breathecode start:flux -r
-```
-Note: if you don't have the breathecode-cli, [here are the installation instructions](https://github.com/breatheco-de/breathecode-cli).
+## Frontend:
+###### NPM email-validator
+###### Fontawesome icons
+###### React router (Site mapping)
+###### React flux (Communicating across views)
+###### React flux-dash from 4GeeksAcademy (For providing the event-actions-store-subscription model)
+###### NPM React masonry component
+###### NPM react-youtube (The youtube iframe for the youtube player)
+###### CSS Flip by David Walsh (provides the animation for the book widget)
+###### NPM rc-table (Used for rendering the table data for recommended media and recommended friends)
 
-##### 3. Install the npm dependencies:
-```
-$ npm install
-```
-That is it! Start coding your ReactJS+Flux application.
+## How to use the website
+The website is not completely fleshed out and it is being used as a demo. Right now there are 5 test profiles: testuser1, testuser2, testuser3, testuser4, and testuser5. There is no authentication so they do not require a password. The main view is what is called the feed. Users that are friends can see widgets from each other's profile, but only after they become friends (which is why not all the widgets are showing). The widgets on the feed are single widgets in a line. The profile view has masonry. There are 3 kinds of widgets: a book, a video player, and a text box. To add a book, you must find the URL of 2 images and they must be valid urls ending in either .jpg, .gif, or .png. The author must by typed correctly. If it is not, it will not allow you to post, because tastedive uses the author and it would pollute the database if not typed correctly. To add a youtube player, add each video with the url of the youtube video, the author or artist for the media, and the title of the media. After you have added the videos, click submit. The text box is straight-forward except the URL of the article/website must be valid. 
 
-Note: If you ever want to manually install all of this read the [MANUAL.md file.](/MANUAL.md)
-
-## How start coding?
-
-Now you have a src/js/index.js that will start your javascript execution (like the window.onload that you would use in Vanilla.js).
-
-###### Every time you save your source code (js & css files) you will have to re-build your bundle.
-
-```sh
-$ npm run build
-```
-
-###### Webpack will generate your bundle.js inside the public folder
-
-Check that a public/bundle.js file has been created by Webpack. Read the output from the console that must be similar to this:
-
-```sh
-> workspace@1.0.0 transpile-dev /home/ubuntu/workspace
-> webpack --config webpack.config.js
-
-Hash: 64f06c46f625967b3aeb
-Version: webpack 3.8.1
-Time: 99ms
-    Asset     Size  Chunks             Chunk Names
-bundle.js  2.52 kB       0  [emitted]  main
-   [0] ./src/bundle.js 51 bytes {0} [built]
-```
-
-###### NOTE: You have to re-bundle every time yo update your JS or CSS/SASS files.
-
-You are ready to go! You can commit & push to your new repository whenever you want.
-
-### REMEMBER:
-
-The application flow starts at **index.js**, you have to import any other files or assets into app.js in order for webpack to include them in the bundle.
-
-For example, inside index.js you can do:
-
-```js
-window.onload = function(){
-    console.log('hello world');
-}
-```
-
-To include images, styles or any other type of file just use the **import** command:
-
-```js
-
-    //This will include file.js into your bundle.
-    import 'js/file2.js';
-    
-    //this will include the styles at index.scss to your bundle.
-    import '../styles/index.scss';
-
-```
-
-1. All your JS and CSS code must go inside the src/ directory, and webpack will automaticly bundle them and export them into the public folder.
-
-2. The HTML code must be inside public/index.html
-# MediaMatch
-# mediaseeker
